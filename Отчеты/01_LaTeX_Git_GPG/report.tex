@@ -1,13 +1,58 @@
-\documentclass[10pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8x]{inputenc}
 \usepackage[russian]{babel}
+\usepackage[OT1]{fontenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
-\author{Имя Фамилия}
-\title{Отчет по лабораторной работе}
+\usepackage{indentfirst}
+\usepackage{fancyvrb}
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0.5cm}
+\author{Федор Кусов}
+\title{Отчет по лабораторной работе 1: \Latex{} Git GPG}
 \begin{document}
-\maketitle
+\section{Cистема верстки \TeX{} и расширения \LaTeX{}}
+\subsection{Цель работы}
+Изучение принципов верстки TEX, создание первого отчета
+\subsection{Ход работы}
+\subsubsection{Создание минимального файла .tex в простом текстовом редакторе – преамбула, тело документа}
 
+
+Документ LaTeX — это текстовый файл, содержащий специальные команды языка разметки. Документ делится на преамбулу и тело.
+
+Преамбула содержит информацию про класс документа, использованные пакеты макросов, определения макросов, автора, дату создания документа и другую информацию. Ниже представлена простая преамбула для статьи
+\begin{Verbatim}[xleftmargin=.5in,fontsize=\small]
+\documentclass[12pt]{article} % Класс документа article, величина шрифта 12пт.
+\usepackage[russian]{babel} % Пакет поддержки русского языка
+\title{Отчет по лабораторной работе 1: \Latex{} Git GPG} % Заглавие документа
+\date{\today} % Дата создания
+\end{Verbatim}
+
+Тело документа содержит текст документа и команды разметки. Оно должно находиться между командами $\backslash$begin\{document\} и $\backslash$end\{document\}.
+\subsubsection{Компиляция в командной строке – latex, xdvi, pdflatex}
+Работа с файлами на языке latex осуществляется при помощи пакета утилит. Вот некоторые из них:
+\begin{itemize}
+\item latex -- принимает файл на языке \LaTeX{} на вход, выдавая бинарный файл в формате dvi (от DeVice independent -- независимый от устройства). Пример использования:
+\begin{Verbatim}[xleftmargin=.5in,fontsize=\small]
+latex report.tex
+\end{Verbatim}
+
+Результатом работы команды будет файл report.dvi
+\item xdvi -- позволяет вывести содержимое .dvi на экран
+\begin{Verbatim}[xleftmargin=.5in,fontsize=\small]
+xdvi report.dvi
+\end{Verbatim}
+Выведет report.dvi на экран в графическом виде.
+\item pdflatex -- преобразует .tex в формат PDF.
+\begin{Verbatim}[xleftmargin=.5in,fontsize=\small]
+pdflatex report.tex
+\end{Verbatim}
+Преобразует report.tex в report.pdf
+\end{itemize}
+\subsubsection{Оболочка TexMaker, Быстрый старт, Быстрая сборка}
+\subsubsection{Создание титульного листа, нескольких разделов, списка, несложной формулы}
+\subsubsection{Понятие классов документов, подключаемых пакетов}
+\subsubsection{Верстка более сложных формул}
 \end{document}
