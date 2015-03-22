@@ -6,11 +6,26 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{indentfirst}
+%%%% Graphics
+\usepackage[dvipsnames]{xcolor}			% driver-independent color 
+\usepackage{wrapfig}						% produces figures which text can flow around
+
 \usepackage{fancyvrb}
 \usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{textcomp}
 \usepackage{listings}
+\lstset{
+	breaklines=true, % Перенос длинных строк
+	basicstyle=\ttfamily\footnotesize, % Шрифт для отображения кода
+	frame=tblr % draw a frame at all sides of the code block
+	tabsize=2, % tab space width
+	showstringspaces=false, % don't mark spaces in strings
+	% Настройка отображения номеров строк
+	numbersep=5pt, % Отступ от кода
+}
+\renewcommand{\lstlistingname}{Листинг}
+\usepackage{titlesec}
 \usepackage{amsmath} % American Mathematical Society (AMS) math facilities
 \usepackage{amsfonts} % fonts from the AMS
 \usepackage{amssymb}	 % additional math symbols
@@ -19,6 +34,7 @@
 \setlength{\parskip}{1em}
 \usepackage[left=2.5cm, right=1.5cm, top=1.5cm, bottom=1.5cm]{geometry}
 \setlength{\parindent}{0.5cm}
+\newcommand{\sectionbreak}{\clearpage}
 \author{Федор Кусов\\<fdr91@mail.ru>}
 \title{Отчет по лабораторной работе 1: \\\LaTeX{}, Git, GPG}
 \begin{document}
@@ -197,4 +213,67 @@ git branch -d branch
 Git является широкораспространенной системой контроля версий. Автору уже не раз приходилось работать с ней в рамках работы над различными студенческими проектами. Git удобен и прост в использовании. Бесплатный хостинг репозиториев GitHub делает Git доступным благодаря простоте создания собственного репозитория и наличию web-интерфейса для работы с контролем версий и багтрекинга.
 
 Основные преимущества распределённых систем — их гибкость и значительно большая (по сравнению с централизованными системами) автономия отдельного рабочего места. Каждый компьютер разработчика является, фактически, самостоятельным и полнофункциональным сервером, из таких компьютеров можно построить произвольную по структуре и уровню сложности систему, задав (как техническими, так и административными мерами) желаемый порядок синхронизации. При этом каждый разработчик может вести работу независимо, так, как ему удобно, изменяя и сохраняя промежуточные версии документов, пользуясь всеми возможностями системы (в том числе доступом к истории изменений) даже в отсутствие сетевого соединения с сервером. Связь с сервером или другими разработчиками требуется исключительно для проведения синхронизации, при этом обмен наборами изменений может осуществляться по различным схемам.
+\section{Программа для шифрования и подписи GPG,пакет Gpg4win}
+\subsection{Цель работы}
+Научиться создавать сертификаты, шифровать файлы и ставить ЭЦП.
+\subsection{Ход работы}
+\subsubsection{ Изучить документацию, запустить графическую оболочку Kleopatra}
+Kleopatra -- это менеджер сертификатов, который позволяет работать с GPG. Он предоставляет графический интерфейс для работы с GPG.
+\subsubsection{Создать ключевую пару OpenPGP}
+Для создания ключевой пары используется команда File → New Certificate. Информация о созданном сертификате отображается на вкладке My Certificates.
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{resources/kleo_sertificates.png}
+\caption{Созданный сертификат}
+\end{figure}
+\subsubsection{Экспортировать сертификат}
+Экспорт сертификата осуществляется командой File → Export Certificate В листинге 1. Представлено содержимое файла-сертификата.
+\lstinputlisting[language={},caption={Сертификат в формате asc (ASCII Armored file)}]{resources/4D993562416D9E8330C3EB759619A14BB00B243C.asc}
+\subsubsection{Поставить ЭЦП на файл}
+Для того, чтобы поставить ЭЦП на файл, используется команда File → Sign/Encrypt Files. Результатом выполнения станет появление файла с расширением .sig.
+\subsubsection{Получить чужой сертификат из репозитория, файл с данными и файл с сигнатурой (подписью)}
+В качестве чужого сертификата был использован сертификат Семена Мартынова из репозитория  https://github.com/SemenMartynov/InfoSecCourse2015
+\subsubsection{Импортировать сертификат, подписать его}
+Импортирование осуществляется командой File → Import Certificates. Импортированый сертификат отображается во вкладке Imported Certificates
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{resources/is.png}
+\caption{Импортированный сертификат}
+\end{figure}
+Импортированный сертификат нужно подписать. Для этого нужно: Щелкнуть правой кнопкой мышью на сертификате  →  Certify Certificate
+В открывшемся окне нужно поставить флажок "I have verified the fingerprint".
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.6]{resources/ss.png}
+\caption{Импортированный сертификат}
+\end{figure}
+\subsubsection{Проверить подпись}
+Для проверки сертификата используется команда File → Verify Certificate.
+\subsubsection{Используя GNU Privacy handbook потренироваться в использовании gpg через интерфейс командной строки, без использования графических оболочек}
+Результат, полученный при помощи Kleopatra легко повторить используя терминал. Генерация ключа происходит в диалоговом режиме после ввода команды
+\begin{verbatim}gpg --gen-key
+\end{verbatim}
+В процессе работы, мастер создания ключа запросит следующую информацию:
+\begin{itemize}
+	\item{Тип ключа (по умолчанию это DSA и ElGamal).}
+	\item{Размер ключа (с DSA/ElGamal ключами не использую длину больше чем 2048).}
+	\item{"срок годности" ключа.}
+	\item{Информацию о пользователе (имя, электронный адрес).}
+	\item{Пароль для ключа (если нужен).}
+\end{itemize}
+
+В процессе генерации ключа, GnuPG использует энтропию. Для способствования её сбору рекомендуется активно двигать мышкой или запустить mp3 в фоновом режиме.
+
+Просмотреть доступные в системе ключи позволяет команда
+\begin{verbatim}gpg --list-keys
+\end{verbatim}
+Её вывод показан на рисунке 7.
+
+Для экспорта можно использовать команду
+\begin{verbatim}gpg --armor --output john.asc --export john@mail.ru
+\end{verbatim}
+
+Для импорта используется
+\begin{verbatim}gpg --import tomas.asc
+\end{verbatim}
 \end{document}
